@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
+import { colors } from "@/constants/colors";
 
 type ButtonProps = {
   route: string;
@@ -19,7 +20,7 @@ export default LinkButton;
 const styles = StyleSheet.create({
   button: {
     alignSelf: "flex-end",
-    color: "#000",
+    color: colors.textSecondary,
     marginRight: 12,
     marginTop: 12,
     fontWeight: 600,
@@ -27,6 +28,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     overflow: "hidden",
-    backgroundColor: "#63ff7e",
+    backgroundColor: colors.primary,
   },
 });
