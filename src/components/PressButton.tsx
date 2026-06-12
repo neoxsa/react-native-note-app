@@ -22,7 +22,7 @@ export default PressButton;
 const styles = StyleSheet.create({
   button: {
     alignSelf: "flex-end",
-    color: "#000",
+    color: colors.textSecondary,
     marginRight: 12,
     marginTop: 12,
     fontWeight: 600,
