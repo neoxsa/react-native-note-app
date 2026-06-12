@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import LinkButton from "@/components/LinkButton";
 import { useNotes } from "../../hooks/useNote";
 import { colors } from "@/constants/colors";
+import { NoteCard } from "@/components/NoteCard";
 
 export default function Index() {
   const { notes } = useNotes();
@@ -19,26 +20,15 @@ export default function Index() {
 
       <FlatList
         data={notes}
+        contentContainerStyle={{ padding: 16, gap: 12 }}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style ={{ paddingHorizontal: 16 }}>
-            <Text
-              style={{
-                marginVertical: 8,
-                marginHorizontal: 12,
-                padding: 12,
-                borderWidth: 1,
-                borderColor: colors.primary,
-                borderRadius: 8,
-                textAlignVertical: "top",
-                color: colors.text,
-                fontWeight: "bold",
-                backgroundColor: colors.bgHead,
-              }}
-            >
-              {item.title}
-            </Text>
-          </View>
+         <NoteCard 
+          key={item.id}
+          item={item}
+          onTogglePin={() => true}
+          onRemove={() => true}
+         />
         )}
       />
     </View>
