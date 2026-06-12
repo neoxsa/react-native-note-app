@@ -3,5 +3,6 @@ export const colors = {
     bgHead: "#010101",
     bgBody: "#212121",
     text: "#ffff",
+    textSecondary: "#000",
     placeholder: "#888",
 }
