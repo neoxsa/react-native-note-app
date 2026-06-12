@@ -1,15 +1,28 @@
 import PressButton from "@/components/PressButton";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { colors } from "@/constants/colors";
+import { Stack, useLocalSearchParams, useNavigation } from "expo-router";
 import { useState } from "react";
 import {TextInput, View } from "react-native";
+import { useNotes } from "../../../hooks/useNote";
 
 const NoteEditorScreen = () => {
   const { id } = useLocalSearchParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const navigation = useNavigation()
 
   const isNew = id === "new";
   const isDisabled = title.length <= 0 || content.length <= 0;
+
+  const { addNote } = useNotes();
+
+  const save = () => {
+    if(isNew){
+      addNote(title, content);
+    };
+    navigation.goBack();
+  }
+
 
   return (
     <View
@@ -35,13 +48,13 @@ const NoteEditorScreen = () => {
             borderColor: "#ccc",
             borderRadius: 8,
             textAlignVertical: "top",
-            color: "#fff",
+            color: colors.text,
             fontWeight: "bold",
           }}
           value={title}
           onChangeText={setTitle}
           placeholder="Note Title"
-          placeholderTextColor="#888"
+          placeholderTextColor={colors.placeholder}
         />
 
         <TextInput
@@ -53,10 +66,10 @@ const NoteEditorScreen = () => {
             borderRadius: 8,
             padding: 12,
             textAlignVertical: "top",
-            color: "#fff",
+            color: colors.text,
           }}
           placeholder="Note Content...."
-          placeholderTextColor="#888"
+          placeholderTextColor={colors.placeholder}
           value={content}
           onChangeText={setContent}
           multiline
@@ -64,7 +77,7 @@ const NoteEditorScreen = () => {
       </View>
         <PressButton 
         label="Save" 
-        action={() => ""}
+        action={save}
         isDisabled={isDisabled}
         />
     </View>
