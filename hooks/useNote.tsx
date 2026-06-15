@@ -1,4 +1,11 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Note } from "../types";
 
 type NotesContextType = {
@@ -7,9 +14,42 @@ type NotesContextType = {
 };
 
 const NotesContext = createContext<NotesContextType | null>(null);
+const Storage_Key = "notes";
 
 export const NotesProvider = ({ children }: { children: ReactNode }) => {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [hasLoaded, setHasLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadNotes = async () => {
+      try {
+        const storedNotes = await AsyncStorage.getItem(Storage_Key);
+        if (storedNotes) {
+          setNotes(JSON.parse(storedNotes));
+        }
+      } catch (error) {
+        console.warn(error);
+      } finally {
+        setHasLoaded(true);
+      }
+    };
+
+    loadNotes();
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoaded) return;
+
+    const saveNotes = async () => {
+      try {
+        await AsyncStorage.setItem(Storage_Key, JSON.stringify(notes));
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+
+    saveNotes();
+  }, [notes, hasLoaded]);
 
   const addNote = (title: string, content: string) => {
     const t = title.trim();
